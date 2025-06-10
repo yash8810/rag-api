@@ -3,7 +3,7 @@ from retriever import retrieve_similar
 import os
 
 # Initialize xAI Grok API client
-client = groq.Groq(api_key="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")
+client = groq.Groq(api_key="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")
 
 def generate_response(user_query, user_data=None):
     # """Generate a short and accurate LLM response for regression-related queries using retrieved data."""
