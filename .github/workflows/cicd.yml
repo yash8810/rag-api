@@ -1,0 +1,36 @@
+
+name: Deploy Flask API with Docker on Apache
+ 
+on:
+  push:
+    branches: [main]
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+ 
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+ 
+    - name: Copy files to VPS
+      run: |
+        ssh -o StrictHostKeyChecking=no root@82.25.105.7 "mkdir -p ~/yash-ai-api"
+        scp -r . root@82.25.105.7:~/yash-ai-api
+
+ 
+    - name: Build & Run Docker container
+      run: |
+        ssh -o StrictHostKeyChecking=no root@82.25.105.7 << 'EOF'
+        cd ~/yash-ai-api
+        docker stop yash-ai-api || true
+        docker rm yash-ai-api || true
+        docker build -t yash-ai-api .
+        docker run -d -p 5002:5000 --name yash-ai-api -e GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" yash-ai-api
+        EOF
+ 
