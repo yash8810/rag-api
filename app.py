@@ -13,7 +13,7 @@ print("Starting Flask app...")
 
 @app.route('/', methods=['GET'])
 def hello():
-    return "Hello world to me"
+    return "Hi"
 
 @app.route('/api/search', methods=['POST'])
 def search():
