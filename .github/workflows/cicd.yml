@@ -31,6 +31,6 @@ jobs:
         docker stop yash-ai-api || true
         docker rm yash-ai-api || true
         docker build -t yash-ai-api .
-        docker run -d -p 5002:5000 --name yash-ai-api -e GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" yash-ai-api
+        docker run -d -p 5008:5000 --name yash-ai-api -e GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" yash-ai-api
         EOF
  
